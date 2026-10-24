@@ -4,7 +4,7 @@
 import base_datos
 
 
-def agregar_estafador():
+def agregar_estafador(usuario):
     print()
     print("--- Agregar estafador ---")
     numero = input("Número de teléfono: ")
@@ -17,6 +17,8 @@ def agregar_estafador():
         "pais": pais,
         "tipo_estafa": tipo_estafa,
         "descripcion": descripcion,
+        # Quién hizo el reporte (en el MER: Usuarios generan Reportes)
+        "correo_usuario": usuario["correo"],
     }
 
     base_datos.guardar_estafador(estafador)
@@ -33,4 +35,5 @@ def ver_estafadores():
 
     for estafador in lista:
         print(f"Número: {estafador['numero']} | País: {estafador['pais']} | "
-              f"Tipo: {estafador['tipo_estafa']} | Descripción: {estafador['descripcion']}")
+              f"Tipo: {estafador['tipo_estafa']} | Descripción: {estafador['descripcion']} | "
+              f"Reportado por: {estafador['correo_usuario']}")
