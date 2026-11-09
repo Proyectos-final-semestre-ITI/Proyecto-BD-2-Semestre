@@ -139,7 +139,6 @@ def ver_detalle(reportes, usuario, titulo):
 # --------------------------------------------------------------- Reportar
 
 def elegir_tipos():
-    # Devuelve una lista con los ID de Tipos_de_Estafas elegidos (puede ser vacía)
     tipos = base_datos.obtener_tipos_estafa()
     if not tipos:
         return []
@@ -205,11 +204,9 @@ def agregar_estafador(usuario):
         "tipos": tipos,
         "descripcion": descripcion,
         "evidencias": evidencias,
-        # Quién hizo el reporte (en el MER: Usuarios generan Reportes)
         "correo_usuario": usuario["correo"],
     }
 
-    # Resumen antes de guardar
     nombres_tipos = [t["nombre"] for t in base_datos.obtener_tipos_estafa() if t["ID"] in tipos]
     resumen = Table.grid(padding=(0, 2))
     resumen.add_column(style="bold cyan", justify="right")
