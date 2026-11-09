@@ -2,6 +2,10 @@
 # Necesita el servidor MySQL encendido y la base proyectobd creada
 # (proyectobd.sql y datos_iniciales.sql).
 
+import librerias
+
+librerias.verificar()
+
 from rich import box
 from rich.markup import escape
 from rich.panel import Panel
@@ -46,6 +50,7 @@ def main():
         base_datos.conectar()
     except base_datos.ErrorBD as error:
         error_de_conexion(error)
+        pantalla.pausa()
         return
 
     usuario = usuarios.iniciar_sesion()
