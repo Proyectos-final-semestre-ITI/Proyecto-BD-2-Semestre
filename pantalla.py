@@ -2,6 +2,8 @@
 # programa se vea prolijo y parejo. Usa la librería rich (colores, tablas
 # y recuadros):  pip install rich
 
+import os
+
 from rich import box
 from rich.align import Align
 from rich.markup import escape
@@ -15,10 +17,19 @@ consola = Console()
 NIVELES = {"baja": "[green]Bajo[/]", "media": "[yellow]Medio[/]", "alta": "[red]Alto[/]"}
 
 
+def limpiar_pantalla():
+    # En la consola clásica de Windows consola.clear() no borra el contenido,
+    # solo mueve el cursor al inicio; por eso se usa cls
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        consola.clear()
+
+
 def encabezado(titulo, usuario=None):
     # Limpia la pantalla y muestra el nombre del programa, quién está
     # conectado y el título de la sección actual
-    consola.clear()
+    limpiar_pantalla()
     logo = Text.from_markup(
         "[bold white]PROGRAMA ANTI-ESTAFAS[/]\n[dim]Reporte y consulte números sospechosos[/]",
         justify="center")
