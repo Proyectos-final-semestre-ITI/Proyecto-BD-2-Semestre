@@ -10,6 +10,8 @@ import base_datos
 import pantalla
 import paises
 
+# Textos con color para el riesgo de cada tipo de estafa y la prioridad
+# que asigna un administrador a un reporte
 RIESGOS = {"baja": "[green]Bajo[/]", "media": "[yellow]Medio[/]", "alta": "[red]Alto[/]"}
 PRIORIDADES = {1: "[green]Baja[/]", 2: "[yellow]Media[/]", 3: "[red]Alta[/]"}
 
@@ -22,6 +24,8 @@ def normalizar_telefono(texto):
 
 
 def pedir_telefono(mensaje):
+    # Pide un teléfono hasta que sea válido: de 6 a 14 caracteres, solo
+    # números y un "+" opcional al principio
     while True:
         numero = normalizar_telefono(pantalla.pedir_texto(mensaje, 30))
         digitos = numero[1:] if numero.startswith("+") else numero
@@ -33,6 +37,7 @@ def pedir_telefono(mensaje):
 # ------------------------------------------------------- Mostrar reportes
 
 def estado(reporte):
+    # Estado del reporte con su color. Un reporte sin revisar figura como pendiente.
     if reporte["confirmado"]:
         return "[bold red]Estafa confirmada[/]"
     if reporte["cancelado"]:
@@ -41,16 +46,19 @@ def estado(reporte):
 
 
 def fecha_hora(reporte):
+    # Fecha y hora del reporte en formato dd/mm/aaaa hh:mm.
     # La hora llega como timedelta (así devuelve MySQL las columnas TIME)
     minutos = int(reporte["hora"].total_seconds()) // 60
     return f"{reporte['fecha']:%d/%m/%Y} {minutos // 60:02d}:{minutos % 60:02d}"
 
 
 def recortar(texto, largo):
+    # Acorta un texto largo y le agrega puntos suspensivos
     return texto if len(texto) <= largo else texto[:largo - 1] + "…"
 
 
 def mostrar_tabla(reportes):
+    # Muestra una lista de reportes en forma de tabla.
     # La descripción completa se ve en el detalle; en la tabla va recortada
     # y solo si la consola es ancha
     con_descripcion = pantalla.consola.width >= 100
@@ -82,6 +90,8 @@ def mostrar_tabla(reportes):
 
 
 def mostrar_detalle(reporte):
+    # Muestra todos los datos de un reporte, incluidas sus evidencias, dentro
+    # de un recuadro cuyo color depende del estado
     datos = Table.grid(padding=(0, 2))
     datos.add_column(style="bold cyan", justify="right")
     datos.add_column()
@@ -139,6 +149,8 @@ def ver_detalle(reportes, usuario, titulo):
 # --------------------------------------------------------------- Reportar
 
 def elegir_tipos():
+    # Muestra los tipos de estafa y permite elegir uno o varios, separados por
+    # coma. Es opcional: devuelve la lista de ID elegidos, que puede estar vacía.
     tipos = base_datos.obtener_tipos_estafa()
     if not tipos:
         return []
@@ -166,6 +178,8 @@ def elegir_tipos():
 
 
 def agregar_estafador(usuario):
+    # Opción 1 del menú. Pide los datos del número sospechoso, muestra un
+    # resumen y guarda el reporte si el usuario lo confirma.
     pantalla.encabezado("Reportar un número", usuario)
     pantalla.consola.print("[dim]Complete los datos del número sospechoso. "
                            "Los datos opcionales se pueden saltear con Enter.[/]\n")
@@ -233,6 +247,8 @@ def agregar_estafador(usuario):
 # ----------------------------------------------------------- Buscar y ver
 
 def buscar_numero(usuario):
+    # Opción 2 del menú. Busca los reportes de un número y avisa cuántos
+    # fueron confirmados como estafa.
     titulo = "Buscar un número"
     pantalla.encabezado(titulo, usuario)
     pantalla.consola.print("[dim]Antes de responder un mensaje o una llamada, "
@@ -263,6 +279,8 @@ def buscar_numero(usuario):
 
 
 def ver_estafadores(usuario):
+    # Opción 3 del menú. Lista todos los reportes guardados y permite ver
+    # el detalle de cada uno.
     titulo = "Todos los reportes"
     while True:
         pantalla.encabezado(titulo, usuario)

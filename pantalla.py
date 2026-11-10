@@ -12,8 +12,12 @@ from rich.table import Table
 from rich.text import Text
 from rich.console import Console
 
-consola = Console()
+# Consola de rich que usa todo el programa para mostrar texto con formato.
+# highlight=False evita que rich coloree por su cuenta números, correos o
+# palabras seguidas de paréntesis; los colores se indican a mano.
+consola = Console(highlight=False)
 
+# Nivel del contribuyente con su color, para el encabezado
 NIVELES = {"baja": "[green]Bajo[/]", "media": "[yellow]Medio[/]", "alta": "[red]Alto[/]"}
 
 
@@ -69,18 +73,22 @@ def menu(opciones, pregunta="Elija una opción"):
 # --------------------------------------------------------------- Mensajes
 
 def exito(mensaje):
+    # Mensaje en verde para una acción que se completó bien
     consola.print(f"[bold black on green] OK [/] {mensaje}")
 
 
 def error(mensaje):
+    # Mensaje en rojo para un dato incorrecto o una falla
     consola.print(f"[bold white on red] ERROR [/] {mensaje}")
 
 
 def aviso(mensaje):
+    # Mensaje en amarillo para advertencias
     consola.print(f"[bold black on yellow] AVISO [/] {mensaje}")
 
 
 def pausa():
+    # Espera a que el usuario presione Enter antes de continuar
     consola.input("\n[dim]Presione Enter para continuar...[/]")
 
 
@@ -118,6 +126,7 @@ def pedir_numero(mensaje, minimo, maximo=None, obligatorio=True):
 
 
 def confirmar(mensaje):
+    # Pregunta de sí o no; devuelve True o False
     while True:
         dato = consola.input(f"[bold]{mensaje}[/] [dim](s/n)[/]: ").strip().lower()
         if dato in ("s", "si", "sí"):

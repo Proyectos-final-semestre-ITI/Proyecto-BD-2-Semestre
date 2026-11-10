@@ -10,7 +10,8 @@ import pantalla
 
 
 def elegir_pais(pregunta):
-    # Devuelve un diccionario {"prefijo": ..., "nombre": ...}
+    # Muestra la lista de países y devuelve el elegido como diccionario
+    # {"prefijo": ..., "nombre": ...}. Con la opción 0 se agrega uno nuevo.
     while True:
         lista = base_datos.obtener_paises()
 
@@ -33,6 +34,8 @@ def elegir_pais(pregunta):
 
 
 def agregar_pais():
+    # Pide el prefijo y el nombre de un país nuevo. Si el prefijo ya está
+    # cargado, se usa ese país en lugar de crear otro.
     pantalla.consola.print()
     prefijo = pantalla.pedir_texto("Prefijo telefónico del país (ej: 598)", 4).lstrip("+")
     while not (prefijo.isdigit() and 1 <= len(prefijo) <= 3):

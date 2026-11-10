@@ -1,10 +1,13 @@
-# Opciones que solo ven los administradores 
+# Opciones que solo ven los administradores
+
 import base_datos
 import estafadores
 import pantalla
 
 
 def revisar_reportes(usuario):
+    # Opción 4 del menú (solo administradores). Lista los reportes pendientes
+    # y permite elegir uno para revisarlo.
     titulo = "Revisar reportes pendientes"
     while True:
         pantalla.encabezado(titulo, usuario)
@@ -29,6 +32,8 @@ def revisar_reportes(usuario):
 
 
 def revisar(reporte, usuario):
+    # Muestra el reporte, pide la prioridad y la decisión del administrador
+    # y guarda la revisión en la tabla Aceptan
     pantalla.encabezado(f"Revisar reporte N° {reporte['IDR']}", usuario)
     estafadores.mostrar_detalle(reporte)
 

@@ -18,6 +18,8 @@ import usuarios
 
 
 def opciones_menu(usuario):
+    # Arma las opciones del menú principal. La opción 4 solo aparece
+    # para los administradores.
     opciones = [
         ("1", "Reportar un número"),
         ("2", "Buscar un número"),
@@ -33,6 +35,8 @@ def opciones_menu(usuario):
 
 
 def error_de_conexion(error):
+    # Pantalla que se muestra cuando no es posible conectarse a MySQL,
+    # con los puntos a revisar
     pantalla.encabezado("Sin conexión")
     pantalla.consola.print(Panel(
         "No se pudo conectar a la base de datos MySQL.\n\n"
@@ -46,6 +50,9 @@ def error_de_conexion(error):
 
 
 def main():
+    # Se conecta a la base, inicia la sesión y repite el menú principal
+    # hasta que el usuario elige salir. Un error de la base de datos se
+    # informa en pantalla sin cerrar el programa.
     try:
         base_datos.conectar()
     except base_datos.ErrorBD as error:

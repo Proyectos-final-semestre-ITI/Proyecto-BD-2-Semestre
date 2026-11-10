@@ -10,6 +10,8 @@ import paises
 
 
 def pedir_correo():
+    # Pide el correo hasta que tenga un formato válido (con @ y un punto en
+    # el dominio). Se guarda en minúsculas.
     correo = pantalla.pedir_texto("Correo", 50).lower()
     while "@" not in correo or "." not in correo.split("@")[-1]:
         pantalla.error("El correo no es válido.")
@@ -18,6 +20,8 @@ def pedir_correo():
 
 
 def iniciar_sesion():
+    # Busca al usuario por su correo. Si no está registrado, pide su nombre
+    # y país y lo da de alta como contribuyente. Devuelve sus datos.
     pantalla.encabezado("Iniciar sesión")
     pantalla.consola.print("[dim]Ingrese su correo. Si es la primera vez, se le pedirán algunos datos más.[/]\n")
     correo = pedir_correo()

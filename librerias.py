@@ -15,6 +15,7 @@ LIBRERIAS = {
 
 
 def esta_instalado(modulo):
+    # Comprueba si el módulo está disponible, sin llegar a importarlo
     try:
         return importlib.util.find_spec(modulo) is not None
     except ModuleNotFoundError:
@@ -23,11 +24,14 @@ def esta_instalado(modulo):
 
 
 def faltantes():
+    # Paquetes de pip que todavía no están instalados
     importlib.invalidate_caches()
     return [paquete for modulo, paquete in LIBRERIAS.items() if not esta_instalado(modulo)]
 
 
 def verificar():
+    # Si falta alguna librería, la informa y ofrece instalarla con pip.
+    # Si no queda instalada, el programa se cierra.
     paquetes = faltantes()
     if not paquetes:
         return
